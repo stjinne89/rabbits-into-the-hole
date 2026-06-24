@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { Fraunces, EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-// Fraunces = free stand-in for DTRH's "Ogg" display serif; EB Garamond for body.
-const display = Fraunces({
-  subsets: ["latin"],
+// Self-host both fonts so production builds never depend on Google Fonts.
+const display = localFont({
+  src: "./fonts/Fraunces-Variable.ttf",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
   variable: "--font-fraunces",
 });
 
-const body = EB_Garamond({
-  subsets: ["latin"],
+const body = localFont({
+  src: "./fonts/EBGaramond-Variable.ttf",
+  weight: "400 800",
+  style: "normal",
+  display: "swap",
   variable: "--font-garamond",
 });
 
