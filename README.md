@@ -5,6 +5,8 @@ kiezen een konijnenras + avatar, delen hun locatie via **OwnTracks** en zien
 elkaar live op een Leaflet-kaart. Per stage toont de app de act die nu speelt en
 de eerstvolgende met een aftelklok (blokkenschema via Clashfinder-import).
 
+Live: <https://rabbits-into-the-hole.netlify.app>
+
 ## Stack
 
 - **Next.js 16** (App Router, TypeScript, Tailwind)
