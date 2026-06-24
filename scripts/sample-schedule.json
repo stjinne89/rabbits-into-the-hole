@@ -1,0 +1,20 @@
+{
+  "name": "Sample schedule (Clashfinder-shaped, for local testing)",
+  "locations": [
+    {
+      "name": "Main Stage",
+      "events": [
+        { "name": "Opening DJ", "start": "2026-07-03 14:00", "end": "2026-07-03 15:00" },
+        { "name": "The White Rabbits", "start": "2026-07-03 15:00", "end": "2026-07-03 16:15" },
+        { "name": "Headliner", "start": "2026-07-03 16:15", "end": "2026-07-03 18:00" }
+      ]
+    },
+    {
+      "name": "This",
+      "events": [
+        { "name": "Carrot Cake", "start": "2026-07-03 14:30", "end": "2026-07-03 15:30" },
+        { "name": "Burrow", "start": "2026-07-03 15:30", "end": "2026-07-03 16:45" }
+      ]
+    }
+  ]
+}
