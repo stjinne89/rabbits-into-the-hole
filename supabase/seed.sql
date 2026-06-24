@@ -20,10 +20,10 @@ insert into public.rabbit_breeds (name, description, image_url, marker_color) va
     '#f59e0b'
   ),
   (
-    'Hollander',
-    'De blokkenschemaprof: strak gepland en precies op tijd voor iedere favoriete act.',
-    '/breeds/hollander.svg',
-    '#111827'
+    'Witte van Hotot',
+    'De scherpe spotter: witte outfit, zwarte eyeliner en altijd als eerste bij de verborgen parel.',
+    '/breeds/witte-van-hotot.svg',
+    '#374151'
   ),
   (
     'Vlaamse Reus',
@@ -46,7 +46,7 @@ insert into public.stages (name, lat, lon, color, sort_order) values
   ('Bossa Nova',         51.852003, 5.690650, '#22c55e', 1),
   ('REX',                51.851521, 5.692107, '#a3a3a3', 2),
   ('Radiate VI',         51.850305, 5.694873, '#15803d', 3),
-  ('Holding',            51.851080, 5.692175, '#ef4444', 4),
+  ('Holding',            51.850837, 5.692799, '#ef4444', 4),
   ('Idyllische Veldje',  51.849697, 5.695412, '#a855f7', 5),
   ('The Croque Madame',  51.849069, 5.695958, '#ec4899', 6),
   ('Fuzzy Lop',          51.849723, 5.693748, '#eab308', 7),

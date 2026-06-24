@@ -96,6 +96,29 @@ node --env-file=.env.local scripts/reconcile-stages.ts  # posities toepassen, ac
 en ruimt lege placeholder-stages op. `apply-stages.ts` doet een volledige
 reset maar weigert als er al acts zijn.
 
+## Persoonlijk programma
+
+Op `/schedule` staat het geïmporteerde blokkenschema als tijdlijn per podium.
+Ieder lid kan zijn eigen konijntje bij acts zetten; keuzes worden per account
+opgeslagen in `user_act_selections` en zijn zichtbaar voor alle ingelogde
+festivalgangers. Acts na middernacht blijven bij de festivalavond ervoor horen
+en overlappende keuzes krijgen een waarschuwing.
+
+Draai hiervoor eenmalig migraties `0006_personal_schedule.sql` en
+`0007_shared_schedule.sql`.
+
+## Rondje halen
+
+Op `/drinks` kan één lid een gedeeld rondje starten. Alle ingelogde leden kunnen
+live drankjes en aantallen voor ieder konijn toevoegen. De haler vergrendelt de
+bestelling met **Ik ga halen** en sluit het rondje met **Rondje is er**. De
+samenvatting toont zowel de bestelling per konijn als de totalen voor de bar.
+De vaste kaart bevat de festivalmerken en aparte keuzes voor bierformaten,
+water, mixdranken en wijnsoorten. Ontbrekende drankjes kunnen tijdens het
+festival door ieder lid permanent aan de gedeelde kaart worden toegevoegd.
+
+Draai hiervoor eenmalig migratie `0010_drink_rounds.sql`.
+
 ## Plattegrond uitlijnen (kalibratie-tool)
 
 Zet de plattegrond als `public/plattegrond.png` en ga (ingelogd) naar
@@ -144,5 +167,5 @@ verzamelen snoepjes die je in het paneel ziet oplopen.
 | `components/Map/*` | Leaflet-kaart (client-only, CRS.Simple plattegrond) |
 | `components/Scoreboard.tsx` | snoepjes-leaderboard per ras |
 | `lib/plattegrond.ts` | GPS → plattegrond-pixel projectie |
-| `supabase/*` | migraties (0001 schema, 0002 stages, 0003 gamification, 0004 festivaltypes, 0005 kaartmarkers) + seed |
+| `supabase/*` | migraties (0001 schema, 0002 stages, 0003 gamification, 0004 festivaltypes, 0005 kaartmarkers, 0006 persoonlijk schema, 0007 gedeeld schema, 0008 Holding-positie, 0009 Hotot + snoepjesreset, 0010 rondje halen) + seed |
 | `scripts/*` | import, stage-positionering, simulator |

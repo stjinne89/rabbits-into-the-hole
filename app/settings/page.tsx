@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import RabbitPicker from "@/components/RabbitPicker";
 import ShareLocationToggle from "@/components/ShareLocationToggle";
 import SignOutButton from "@/components/SignOutButton";
+import DrinkRoundLink from "@/components/Drinks/DrinkRoundLink";
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -24,8 +25,17 @@ export default async function SettingsPage() {
   return (
     <main className="flex flex-1 justify-center bg-forest-950 px-4 py-10 text-cream">
       <div className="w-full max-w-lg space-y-8">
-        <div className="flex items-center justify-between">
-          <h1 className="font-display text-3xl">Instellingen</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="w-full font-display text-3xl sm:mr-auto sm:w-auto">
+            Instellingen
+          </h1>
+          <DrinkRoundLink />
+          <Link
+            href="/schedule"
+            className="text-sm text-gold hover:text-gold-bright"
+          >
+            Programma
+          </Link>
           <Link href="/map" className="text-sm text-gold hover:text-gold-bright">
             ← Kaart
           </Link>

@@ -63,6 +63,12 @@ export type MapNote = {
   created_at: string;
 };
 
+export type UserActSelection = {
+  user_id: string;
+  act_id: number;
+  created_at: string;
+};
+
 export type Encounter = {
   id: number;
   user_low: string;
@@ -85,6 +91,34 @@ export type BreedScore = {
   image_url: string;
   marker_color: string;
   candies: number;
+};
+
+export type DrinkItem = {
+  id: number;
+  name: string;
+  category: string;
+  sort_order: number;
+  active: boolean;
+};
+
+export type DrinkRoundStatus = "open" | "collecting" | "completed";
+
+export type DrinkRound = {
+  id: string;
+  collector_id: string;
+  status: DrinkRoundStatus;
+  created_at: string;
+  collecting_at: string | null;
+  completed_at: string | null;
+};
+
+export type DrinkRoundSelection = {
+  round_id: string;
+  recipient_id: string;
+  drink_item_id: number;
+  quantity: number;
+  updated_by: string;
+  updated_at: string;
 };
 
 export type Database = {
@@ -151,6 +185,15 @@ export type Database = {
         Update: Partial<MapNote>;
         Relationships: [];
       };
+      user_act_selections: {
+        Row: UserActSelection;
+        Insert: Partial<UserActSelection> & {
+          user_id: string;
+          act_id: number;
+        };
+        Update: Partial<UserActSelection>;
+        Relationships: [];
+      };
       encounters: {
         Row: Encounter;
         Insert: Partial<Encounter> & { user_low: string; user_high: string };
@@ -163,6 +206,33 @@ export type Database = {
         Update: Partial<Candy>;
         Relationships: [];
       };
+      drink_items: {
+        Row: DrinkItem;
+        Insert: Partial<DrinkItem> & {
+          name: string;
+          category: string;
+        };
+        Update: Partial<DrinkItem>;
+        Relationships: [];
+      };
+      drink_rounds: {
+        Row: DrinkRound;
+        Insert: Partial<DrinkRound> & { collector_id: string };
+        Update: Partial<DrinkRound>;
+        Relationships: [];
+      };
+      drink_round_selections: {
+        Row: DrinkRoundSelection;
+        Insert: Partial<DrinkRoundSelection> & {
+          round_id: string;
+          recipient_id: string;
+          drink_item_id: number;
+          quantity: number;
+          updated_by: string;
+        };
+        Update: Partial<DrinkRoundSelection>;
+        Relationships: [];
+      };
     };
     Views: {
       breed_scores: {
@@ -170,7 +240,32 @@ export type Database = {
         Relationships: [];
       };
     };
-    Functions: Record<string, never>;
+    Functions: {
+      start_drink_round: {
+        Args: Record<PropertyKey, never>;
+        Returns: DrinkRound;
+      };
+      change_drink_quantity: {
+        Args: {
+          p_round_id: string;
+          p_recipient_id: string;
+          p_drink_item_id: number;
+          p_delta: number;
+        };
+        Returns: number;
+      };
+      advance_drink_round: {
+        Args: { p_round_id: string };
+        Returns: DrinkRound;
+      };
+      add_drink_item: {
+        Args: {
+          p_name: string;
+          p_category: string;
+        };
+        Returns: DrinkItem;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -95,6 +95,43 @@ h3,
   border: 3px solid var(--color-cream);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
+.stage-plan-marker {
+  position: relative;
+  display: grid;
+  width: 62px;
+  height: 46px;
+  place-items: end center;
+}
+.stage-plan-rabbits {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%);
+}
+.stage-plan-rabbits img,
+.stage-plan-rabbits span {
+  width: 23px;
+  height: 23px;
+  margin-left: -6px;
+  border: 2px solid var(--rabbit-color, var(--color-gold));
+  border-radius: 9999px;
+  background: var(--color-cream);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+.stage-plan-rabbits img:first-child {
+  margin-left: 0;
+}
+.stage-plan-rabbits span {
+  display: grid;
+  place-items: center;
+  border-color: var(--color-cream);
+  background: var(--color-forest-950);
+  color: var(--color-cream);
+  font-family: sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+}
 
 /* Shared notes left by festival members */
 .note-marker {

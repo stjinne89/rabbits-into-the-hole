@@ -1,13 +1,19 @@
+import Image from "next/image";
 import type { StageStatus } from "@/lib/schedule";
+import type { PlannedRabbit } from "@/lib/schedule-attendees";
 import { formatCountdown, formatTime } from "@/lib/format";
 
 /** Compact now-playing panel for a single stage. Rendered inside map popups. */
 export default function StagePanel({
   status,
   now,
+  plannedRabbits,
+  nextPlannedRabbits,
 }: {
   status: StageStatus;
   now: Date;
+  plannedRabbits: PlannedRabbit[];
+  nextPlannedRabbits: PlannedRabbit[];
 }) {
   const { stage, current, next } = status;
   const t = now.getTime();
@@ -33,6 +39,37 @@ export default function StagePanel({
               tot {formatTime(current.end_time)} · nog{" "}
               {formatCountdown(new Date(current.end_time).getTime() - t)}
             </p>
+            {plannedRabbits.length > 0 && (
+              <div className="mt-3 border-t border-forest-900/15 pt-2">
+                <p className="text-[11px] uppercase tracking-wide text-grape">
+                  Willen hierheen
+                </p>
+                <div className="mt-1.5 flex flex-wrap gap-2">
+                  {plannedRabbits.map((rabbit) => (
+                    <div
+                      key={rabbit.user_id}
+                      className="flex items-center gap-1.5"
+                    >
+                      <span
+                        className="block h-7 w-7 rounded-full bg-cream ring-2"
+                        style={{ color: rabbit.marker_color }}
+                      >
+                        <Image
+                          src={rabbit.image_url}
+                          alt=""
+                          width={28}
+                          height={28}
+                          className="h-full w-full rounded-full ring-2 ring-current"
+                        />
+                      </span>
+                      <span className="text-xs font-medium">
+                        {rabbit.display_name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <p className="text-sm text-forest-900/60">Nu niets op deze stage.</p>
@@ -47,6 +84,37 @@ export default function StagePanel({
             {formatTime(next.start_time)} · over{" "}
             {formatCountdown(new Date(next.start_time).getTime() - t)}
           </p>
+          {nextPlannedRabbits.length > 0 && (
+            <div className="mt-2">
+              <p className="text-[11px] uppercase tracking-wide text-grape">
+                Willen hierheen
+              </p>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                {nextPlannedRabbits.map((rabbit) => (
+                  <div
+                    key={rabbit.user_id}
+                    className="flex items-center gap-1.5"
+                  >
+                    <span
+                      className="block h-7 w-7 rounded-full bg-cream ring-2"
+                      style={{ color: rabbit.marker_color }}
+                    >
+                      <Image
+                        src={rabbit.image_url}
+                        alt=""
+                        width={28}
+                        height={28}
+                        className="h-full w-full rounded-full ring-2 ring-current"
+                      />
+                    </span>
+                    <span className="text-xs font-medium">
+                      {rabbit.display_name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

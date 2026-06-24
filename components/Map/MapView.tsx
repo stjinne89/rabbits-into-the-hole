@@ -19,6 +19,10 @@ import {
   type MapNoteWithAuthor,
 } from "@/lib/map-notes";
 import { computeStageStatuses } from "@/lib/schedule";
+import {
+  fetchScheduleAttendees,
+  type PlannedRabbit,
+} from "@/lib/schedule-attendees";
 import type { Act, Stage } from "@/lib/database.types";
 import StagePanel from "@/components/NowPlaying/StagePanel";
 import { LOCATION_FRESH_MS, PLATTEGROND_IMAGE } from "@/lib/festival-map";
@@ -38,12 +42,29 @@ function memberIcon(member: MapMember, isSelf: boolean) {
   });
 }
 
-function stageIcon(color: string) {
+function stageIcon(color: string, plannedRabbits: PlannedRabbit[]) {
+  const visible = plannedRabbits.slice(0, 4);
+  const remaining = plannedRabbits.length - visible.length;
   return L.divIcon({
     className: "",
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
-    html: `<div class="stage-marker" style="--c:${color}"></div>`,
+    iconSize: [62, 46],
+    iconAnchor: [31, 35],
+    html: `<div class="stage-plan-marker">
+      ${
+        plannedRabbits.length > 0
+          ? `<div class="stage-plan-rabbits">
+              ${visible
+                .map(
+                  (rabbit) =>
+                    `<img src="${rabbit.image_url}" alt="" style="--rabbit-color:${rabbit.marker_color}" />`
+                )
+                .join("")}
+              ${remaining > 0 ? `<span>+${remaining}</span>` : ""}
+            </div>`
+          : ""
+      }
+      <div class="stage-marker" style="--c:${color}"></div>
+    </div>`,
   });
 }
 
@@ -117,17 +138,22 @@ export default function MapView({
   acts,
   initialMembers,
   initialMapNotes,
+  initialScheduleAttendees,
 }: {
   currentUserId: string;
   stages: Stage[];
   acts: Act[];
   initialMembers: MapMember[];
   initialMapNotes: MapNoteWithAuthor[];
+  initialScheduleAttendees: PlannedRabbit[];
 }) {
   const supabase = useMemo(() => createClient(), []);
   const [members, setMembers] = useState<MapMember[]>(initialMembers);
   const [mapNotes, setMapNotes] =
     useState<MapNoteWithAuthor[]>(initialMapNotes);
+  const [scheduleAttendees, setScheduleAttendees] = useState<PlannedRabbit[]>(
+    initialScheduleAttendees
+  );
   const [now, setNow] = useState<Date>(() => new Date());
   const [placing, setPlacing] = useState(false);
   const [position, setPosition] = useState<{
@@ -164,6 +190,33 @@ export default function MapView({
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "locations" },
+        refresh
+      )
+      .subscribe();
+    return () => {
+      if (timer) clearTimeout(timer);
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
+
+  // Live-update rabbits that plan to attend acts.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const refresh = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        fetchScheduleAttendees(supabase).then(setScheduleAttendees);
+      }, 250);
+    };
+    const channel = supabase
+      .channel("map-schedule-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "user_act_selections",
+        },
         refresh
       )
       .subscribe();
@@ -294,17 +347,34 @@ export default function MapView({
         />
         <ImageOverlay url={PLATTEGROND_IMAGE} bounds={IMAGE_BOUNDS} />
 
-        {statuses.map((status) => (
-          <Marker
-            key={status.stage.id}
-            position={gpsToImageLatLng(status.stage.lat, status.stage.lon)}
-            icon={stageIcon(status.stage.color)}
-          >
-            <Popup>
-              <StagePanel status={status} now={now} />
-            </Popup>
-          </Marker>
-        ))}
+        {statuses.map((status) => {
+          const plannedRabbits = status.current
+            ? scheduleAttendees.filter(
+                (rabbit) => rabbit.act_id === status.current!.id
+              )
+            : [];
+          const nextPlannedRabbits = status.next
+            ? scheduleAttendees.filter(
+                (rabbit) => rabbit.act_id === status.next!.id
+              )
+            : [];
+          return (
+            <Marker
+              key={status.stage.id}
+              position={gpsToImageLatLng(status.stage.lat, status.stage.lon)}
+              icon={stageIcon(status.stage.color, plannedRabbits)}
+            >
+              <Popup>
+                <StagePanel
+                  status={status}
+                  now={now}
+                  plannedRabbits={plannedRabbits}
+                  nextPlannedRabbits={nextPlannedRabbits}
+                />
+              </Popup>
+            </Marker>
+          );
+        })}
 
         {activeMapNotes.map((note) => (
           <Marker

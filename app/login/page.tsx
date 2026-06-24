@@ -49,9 +49,6 @@ export default function LoginPage() {
             <br />
             into the Hole
           </h1>
-          <p className="mt-3 text-sm normal-case tracking-normal text-cream/70">
-            Down the Rabbit Hole 2026 — vind je vrienden op de kaart.
-          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">

@@ -18,7 +18,7 @@ export const STAGE_POSITIONS: {
   { name: "Bossa Nova", color: "#22c55e", fx: 0.56, fy: 0.421 },
   { name: "REX", color: "#a3a3a3", fx: 0.627, fy: 0.416 },
   { name: "Radiate VI", color: "#15803d", fx: 0.765, fy: 0.424 },
-  { name: "Holding", color: "#ef4444", fx: 0.645, fy: 0.44 },
+  { name: "Holding", color: "#ef4444", fx: 0.675, fy: 0.44 },
   { name: "Idyllische Veldje", color: "#a855f7", fx: 0.805, fy: 0.447 },
   { name: "The Croque Madame", color: "#ec4899", fx: 0.846, fy: 0.471 },
   { name: "Fuzzy Lop", color: "#eab308", fx: 0.747, fy: 0.483 },
