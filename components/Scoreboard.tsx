@@ -16,7 +16,7 @@ export default function Scoreboard({
       (a, b) => b.candies - a.candies || a.name.localeCompare(b.name)
     )
   );
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const load = useCallback(async () => {
     const { data } = await supabase.from("breed_scores").select("*");
