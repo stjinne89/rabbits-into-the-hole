@@ -14,7 +14,7 @@ export default function SignOutButton() {
       }}
       className="rounded-lg bg-forest-800 px-4 py-2 text-sm font-medium text-cream ring-1 ring-cream/15 transition hover:bg-forest-700"
     >
-      Uitloggen
+      Ik wil de hole uit
     </button>
   );
 }

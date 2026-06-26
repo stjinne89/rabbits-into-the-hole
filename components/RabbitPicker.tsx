@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import BreedSelect from "@/components/BreedSelect";
 import type { RabbitBreed } from "@/lib/database.types";
 
 type Props = {
@@ -59,37 +59,8 @@ export default function RabbitPicker({
 
       <div>
         <p className="text-sm text-cream/70">Welk festivalkonijn ben jij?</p>
-        <div className="mt-3 grid grid-cols-2 gap-3">
-          {breeds.map((b) => {
-            const selected = b.id === breedId;
-            return (
-              <button
-                key={b.id}
-                type="button"
-                onClick={() => setBreedId(b.id)}
-                aria-pressed={selected}
-                className={`flex min-h-48 flex-col items-center rounded-xl p-4 text-center ring-2 transition ${
-                  selected
-                    ? "bg-gold/20 ring-gold"
-                    : "bg-forest-800 ring-transparent hover:ring-cream/30"
-                }`}
-              >
-                <Image
-                  src={b.image_url}
-                  alt={b.name}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 shrink-0"
-                />
-                <span className="mt-2 font-display text-xs text-cream">
-                  {b.name}
-                </span>
-                <span className="mt-2 text-xs leading-snug text-cream/70">
-                  {b.description}
-                </span>
-              </button>
-            );
-          })}
+        <div className="mt-2">
+          <BreedSelect breeds={breeds} value={breedId} onChange={setBreedId} />
         </div>
       </div>
 
@@ -100,7 +71,7 @@ export default function RabbitPicker({
         disabled={saving}
         className="w-full rounded-lg bg-gold py-2.5 text-sm font-semibold text-forest-950 transition hover:bg-gold-bright disabled:opacity-50"
       >
-        {saving ? "Opslaan…" : "Opslaan en naar de kaart"}
+        {saving ? "Opslaan…" : "Opslaan"}
       </button>
     </div>
   );

@@ -42,7 +42,7 @@ export default async function DrinksPage() {
       .maybeSingle(),
   ]);
 
-  if (!profile?.rabbit_breed_id) redirect("/onboarding");
+  if (!profile?.rabbit_breed_id) redirect("/settings");
 
   const breedById = new Map((breeds ?? []).map((breed) => [breed.id, breed]));
   const members: DrinkMember[] = (profiles ?? []).flatMap((member) => {

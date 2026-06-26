@@ -21,7 +21,7 @@ export default async function MapPage() {
     .select("rabbit_breed_id")
     .eq("id", user.id)
     .maybeSingle();
-  if (!profile?.rabbit_breed_id) redirect("/onboarding");
+  if (!profile?.rabbit_breed_id) redirect("/settings");
 
   const [
     { data: stages },

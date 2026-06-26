@@ -49,11 +49,11 @@ export default async function SchedulePage() {
   ]);
 
   if (!profile?.rabbit_breed_id) {
-    redirect("/onboarding");
+    redirect("/settings");
   }
 
   const rabbit = breeds?.find((breed) => breed.id === profile.rabbit_breed_id);
-  if (!rabbit) redirect("/onboarding");
+  if (!rabbit) redirect("/settings");
 
   const breedById = new Map((breeds ?? []).map((breed) => [breed.id, breed]));
   const profileById = new Map(

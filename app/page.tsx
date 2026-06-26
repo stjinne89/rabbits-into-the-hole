@@ -15,6 +15,6 @@ export default async function Home() {
     .eq("id", user.id)
     .maybeSingle();
 
-  if (!profile?.rabbit_breed_id) redirect("/onboarding");
+  if (!profile?.rabbit_breed_id) redirect("/settings");
   redirect("/map");
 }
